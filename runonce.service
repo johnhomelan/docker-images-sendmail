@@ -1,0 +1,10 @@
+[Unit]
+Description=First Start (builds certs for sendmail and cyrus)
+Before=sendmail.service cyrus-imapd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/runonce
+
+[Install]
+WantedBy=multi-user.target
