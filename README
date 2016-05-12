@@ -1,0 +1,27 @@
+Sendmail/Cyrus Email 
+
+This image is based on CentOS, and provides SMTP and IMAP services using sendmail and Cyrus. 
+
+In order to keep as close the running things the way CentOS would normally, systemd is used to invoke both sendmail and cyrus-imapd.
+
+SSL
+
+On first run the image create and uniqe set of self signed ssl certs for sendmail and cyrus, so you can use ssl be default.
+
+Mount Points 
+
+The image has a number of mount points so you can use another volume for hypervisor storage to store your email, or configuration settings.  If you mount a blank external director for any of these mount points they will get populated on first start.
+
+/var/spool/imap
+/var/lib/imap
+/var/spool/mqueue
+/etc/mail
+/etc/pki/tls/certs/
+
+Systemd 
+
+As the image uses systemd it does need access to cgroups, this is done by mounting cgroups from the hypervisor.  This does allow systemd inside the container to see things outside the container, so you should give the implications of this some thought before using this image.
+
+Usage
+
+docker run -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /tmp/$(mktemp -d):/run -e \"container=docker\"
