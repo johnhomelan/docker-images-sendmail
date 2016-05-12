@@ -1,0 +1,22 @@
+#!/bin/bash
+
+cd /etc/pki/tls/certs;
+/usr/bin/openssl req -utf8 -subj "/C=GB/ST=Auto/L=Cert/O=Dis/CN=replaceme.com"  -newkey rsa -keyout sendmail.pem  -nodes -x509 -days 3650 -out sendmail.pem 
+chmod 500 sendmail.pem
+cd /etc/pki/cyrus-imapd/
+/usr/bin/openssl req -utf8 -subj "/C=GB/ST=Auto/L=Cert/O=Dis/CN=replaceme.com"  -newkey rsa -keyout cyrus-imapd.pem -nodes -x509 -days 3650 -out cyrus-imapd.pem
+chgrp mail cyrus-imapd.pem
+chmod 540 cyrus-imapd.pem
+
+cd /
+if [ ! -f /etc/mail/sendmail.mc ]; then 
+	tar -xzvf /root/etc_mail.tgz 
+fi
+rm -f /root/etc_mail.tgz
+
+if [ ! -d /var/lib/imap/db ]; then 
+	tar -xzvf /root/var_lib_imap.tgz 
+fi
+rm -f /root/var_lib_imap.tgz
+
+systemctl disable runonce
