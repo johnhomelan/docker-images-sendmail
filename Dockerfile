@@ -27,6 +27,18 @@ RUN yum install -y  \
  
 RUN yum clean all; systemctl enable sendmail.service ; systemctl enable cyrus-imapd.service
 
+COPY libnss-pgsql-1.5.0-0.15.beta.el7.centos.x86_64.rpm /tmp
+RUN yum -y install /tmp/libnss-pgsql-1.5.0-0.15.beta.el7.centos.x86_64.rpm
+RUN rm -f /tmp/libnss-pgsql-1.5.0-0.15.beta.el7.centos.x86_64.rpm
+
+
+COPY conf/nss-pgsql.conf /etc/
+COPY conf/nss-pgsql-root.conf /etc/
+COPY conf/nsswitch.conf /etc/
+RUN chmod 600 /etc/nss-pgsql-root.conf
+RUN chown root:root /etc/nss-pgsql-root.conf
+
+
 ADD sendmail.cf /etc/mail/
 ADD sendmail.mc /etc/mail/
 ADD imapd.conf /etc/
