@@ -22,6 +22,13 @@ Systemd
 
 As the image uses systemd it does need access to cgroups, this is done by mounting cgroups from the hypervisor.  This does allow systemd inside the container to see things outside the container, so you should give the implications of this some thought before using this image.
 
+NSS/Pam
+
+The pgsql version of the image uses PostgreSQL for its users, making use of pam and nss.  This allows the image to make use of a PostgreSQL docker container for storing users/password and groups so the mail server image does not need to. 
+
+
 Usage
 
-docker run -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /tmp/$(mktemp -d):/run -e \"container=docker\"
+docker run -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /tmp/$(mktemp -d):/run -e \"container=docker\" -e NSS_PG_USER_PASSWD=pgsql_pw -e NSS_PG_HOST=pg_host
+
+
