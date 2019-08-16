@@ -1,5 +1,23 @@
 #!/bin/bash
 
+NSS_PG_HOST="${NSS_PG_HOST:-pg_nss}"
+NSS_PG_DB="${NSS_PG_DB:-nss}"
+NSS_PG_USER_PASSWD="${NSS_PG_USER_PASSWD:-nss_passwd}"
+NSS_PG_USER_SHADOW="${NSS_PG_USER_SHADOW:-nss_shadow}"
+NSS_PG_HOST_IP=`cat /etc/hosts |grep $NSS_PG_HOST |awk {'print $1'}`
+
+sed -i "s/@nss_pg_host@/$NSS_PG_HOST_IP/" /etc/nss-pgsql.conf
+sed -i "s/@nss_pg_host@/$NSS_PG_HOST_IP/" /etc/nss-pgsql-root.conf
+sed -i "s/@nss_pg_db@/$NSS_PG_DB/" /etc/nss-pgsql.conf
+sed -i "s/@nss_pg_db@/$NSS_PG_DB/" /etc/nss-pgsql-root.conf
+
+sed -i "s/@nss_pg_user_passwd@/$NSS_PG_USER_PASSWD/" /etc/nss-pgsql.conf
+sed -i "s/@nss_pg_password_passwd@/$NSS_PG_PASSWORD_PASSWD/" /etc/nss-pgsql.conf
+
+sed -i "s/@nss_pg_user_shadow@/$NSS_PG_USER_SHADOW/" /etc/nss-pgsql-root.conf
+sed -i "s/@nss_pg_password_shadow@/$NSS_PG_PASSWORD_SHADOW/" /etc/nss-pgsql-root.conf
+
+
 cd /etc/pki/tls/certs;
 /usr/bin/openssl req -utf8 -subj "/C=GB/ST=Auto/L=Cert/O=Dis/CN=replaceme.com"  -newkey rsa -keyout sendmail.pem  -nodes -x509 -days 3650 -out sendmail.pem 
 chmod 500 sendmail.pem
