@@ -23,6 +23,7 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 RUN yum install -y  \
 	sendmail \
 	sendmail-cf \
+	mailman \
 	cyrus-imapd 
  
 RUN yum clean all; systemctl enable sendmail.service ; systemctl enable cyrus-imapd.service; systemctl enable saslauthd.service
@@ -54,7 +55,7 @@ RUN tar czvf /root/var_lib_imap.tgz /var/lib/imap
 
 
 EXPOSE 25 587 465 993 143 
-VOLUME ["/var/spool/imap", "/var/lib/imap", "/var/spool/mqueue", "/etc/mail", "/etc/pki/tls/certs/", "/sys/fs/cgroup" ]
+VOLUME ["/var/spool/imap", "/var/lib/imap", "/var/spool/mqueue", "/etc/mail", "/etc/pki/tls/certs/", "/sys/fs/cgroup", "/var/lib/mailman" ]
 
 CMD ["/usr/sbin/init"]
 

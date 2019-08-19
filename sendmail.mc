@@ -31,7 +31,7 @@ define(`confTO_CONNECT', `1m')dnl
 define(`confTRY_NULL_MX_LIST', `True')dnl
 define(`confDONT_PROBE_INTERFACES', `True')dnl
 define(`PROCMAIL_MAILER_PATH', `/usr/bin/procmail')dnl
-define(`ALIAS_FILE', `/etc/aliases')dnl
+define(`ALIAS_FILE', `/etc/mail/aliases')dnl
 define(`STATUS_FILE', `/var/log/mail/statistics')dnl
 define(`UUCP_MAILER_MAX', `2000000')dnl
 define(`confUSERDB_SPEC', `/etc/mail/userdb.db')dnl
