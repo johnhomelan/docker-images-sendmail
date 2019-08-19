@@ -25,7 +25,7 @@ RUN yum install -y  \
 	sendmail-cf \
 	cyrus-imapd 
  
-RUN yum clean all; systemctl enable sendmail.service ; systemctl enable cyrus-imapd.service
+RUN yum clean all; systemctl enable sendmail.service ; systemctl enable cyrus-imapd.service; systemctl enable saslauthd.service
 
 COPY libnss-pgsql-1.5.0-0.15.beta.el7.centos.x86_64.rpm /tmp
 RUN yum -y install /tmp/libnss-pgsql-1.5.0-0.15.beta.el7.centos.x86_64.rpm
