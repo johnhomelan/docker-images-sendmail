@@ -24,7 +24,11 @@ RUN yum install -y  \
 	sendmail \
 	sendmail-cf \
 	mailman \
-	cyrus-imapd 
+	cyrus-imapd \
+	cyrus-sasl-plain \
+	cyrus-sasl-md5 \
+	cyrus-sasl-ldap \ 
+	cyrus-sasl-sql
  
 RUN yum clean all; systemctl enable sendmail.service ; systemctl enable cyrus-imapd.service; systemctl enable saslauthd.service
 
