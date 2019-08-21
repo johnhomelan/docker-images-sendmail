@@ -48,6 +48,8 @@ ADD runonce /usr/local/sbin/
 
 RUN chmod u+x /usr/local/sbin/runonce
 
+RUN mkdir /var/milter; chown smmsp.smmsp /var/milter
+
 #Backup the /etc/mail dir, so it can be unpacked so if it is volume mounted it wont be empty 
 
 RUN tar czvf /root/etc_mail.tgz /etc/mail
@@ -55,7 +57,7 @@ RUN tar czvf /root/var_lib_imap.tgz /var/lib/imap
 
 
 EXPOSE 25 587 465 993 143 
-VOLUME ["/var/spool/imap", "/var/lib/imap", "/var/spool/mqueue", "/etc/mail", "/etc/pki/tls/certs/", "/sys/fs/cgroup", "/var/lib/mailman" ]
+VOLUME ["/var/spool/imap", "/var/lib/imap", "/var/spool/mqueue", "/etc/mail", "/etc/pki/tls/certs/", "/sys/fs/cgroup", "/var/lib/mailman", "/home", "/var/milter" ]
 
 CMD ["/usr/sbin/init"]
 
