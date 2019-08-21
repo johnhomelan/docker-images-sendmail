@@ -53,7 +53,7 @@ ADD runonce /usr/local/sbin/
 
 RUN chmod u+x /usr/local/sbin/runonce
 
-RUN sed -i "s/account    required     pam_nologin.so//" /etc/pam.d/imap
+RUN sed -i "s/auth       required     pam_nologin.so//" /etc/pam.d/imap
 RUN mkdir /var/milter; chown smmsp.smmsp /var/milter
 
 #Backup the /etc/mail dir, so it can be unpacked so if it is volume mounted it wont be empty 
