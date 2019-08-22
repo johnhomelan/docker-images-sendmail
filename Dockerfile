@@ -62,7 +62,7 @@ RUN tar czvf /root/etc_mail.tgz /etc/mail
 RUN tar czvf /root/var_lib_imap.tgz /var/lib/imap
 
 
-EXPOSE 25 587 465 993 143 
+EXPOSE 25 587 465 993 143 4190
 VOLUME ["/var/spool/imap", "/var/lib/imap", "/var/spool/mqueue", "/etc/mail", "/etc/pki/tls/certs/", "/sys/fs/cgroup", "/var/lib/mailman", "/home", "/var/milter" ]
 
 CMD ["/usr/sbin/init"]
