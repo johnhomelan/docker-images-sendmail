@@ -26,10 +26,13 @@ sed -i "s/@nss_pg_password_shadow@/$NSS_PG_PASSWORD_SHADOW/" /etc/nss-pgsql-root
 cd /etc/pki/tls/certs;
 /usr/bin/openssl req -utf8 -subj "/C=GB/ST=Auto/L=Cert/O=Dis/CN=replaceme.com"  -newkey rsa -keyout sendmail.pem  -nodes -x509 -days 3650 -out sendmail.pem 
 chmod 500 sendmail.pem
-cd /etc/pki/cyrus-imapd/
-/usr/bin/openssl req -utf8 -subj "/C=GB/ST=Auto/L=Cert/O=Dis/CN=replaceme.com"  -newkey rsa -keyout cyrus-imapd.pem -nodes -x509 -days 3650 -out cyrus-imapd.pem
-chgrp mail cyrus-imapd.pem
-chmod 540 cyrus-imapd.pem
+if [ ! -d /etc/pki/tls/certs/imap ]; then
+	mkdir /etc/pki/tls/certs/imap
+	cd /etc/pki/tls/certs/imap
+	/usr/bin/openssl req -utf8 -subj "/C=GB/ST=Auto/L=Cert/O=Dis/CN=replaceme.com"  -newkey rsa -keyout privkey.pem -nodes -x509 -days 3650 -out fullchain.pem
+	chgrp mail privkey.pem
+	chmod 540 privkey.pem
+fi
 
 cd /
 if [ ! -f /etc/mail/sendmail.mc ]; then 
