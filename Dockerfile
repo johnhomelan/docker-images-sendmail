@@ -3,7 +3,7 @@
 # Version 1
 
 # Pull from CentOS Image
-FROM centos
+FROM fedora:30
 
 MAINTAINER john.brown@ost-linux.co.uk
 
