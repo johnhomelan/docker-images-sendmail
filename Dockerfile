@@ -27,16 +27,11 @@ RUN yum install -y  \
 	mailman \
 	cyrus-imapd \
 	cyrus-sasl-plain \
-	cyrus-sasl-md5 \
-	cyrus-sasl-ldap \ 
-	cyrus-sasl-sql
+	procps-ng
  
 RUN yum clean all; systemctl enable sendmail.service ; systemctl enable cyrus-imapd.service; systemctl enable saslauthd.service
 
-COPY libnss-pgsql-1.5.0-0.15.beta.el7.centos.x86_64.rpm /tmp
-RUN yum -y install /tmp/libnss-pgsql-1.5.0-0.15.beta.el7.centos.x86_64.rpm
-RUN rm -f /tmp/libnss-pgsql-1.5.0-0.15.beta.el7.centos.x86_64.rpm
-
+RUN yum -y install libnss-pgsql
 
 COPY conf/nss-pgsql.conf /etc/
 COPY conf/nss-pgsql-root.conf /etc/
@@ -48,10 +43,11 @@ RUN chown root:root /etc/nss-pgsql-root.conf
 ADD sendmail.cf /etc/mail/
 ADD sendmail.mc /etc/mail/
 ADD imapd.conf /etc/
-ADD runonce.service /etc/systemd/system/default.target.wants/
+ADD runonce.service /etc/systemd/system/
 ADD runonce /usr/local/sbin/
 
 RUN chmod u+x /usr/local/sbin/runonce
+RUN systemctl enable runonce
 
 RUN sed -i "s/auth       required     pam_nologin.so//" /etc/pam.d/imap
 RUN mkdir /var/milter; chown smmsp.smmsp /var/milter
@@ -66,4 +62,3 @@ EXPOSE 25 587 465 993 143 4190
 VOLUME ["/var/spool/imap", "/var/lib/imap", "/var/spool/mqueue", "/etc/mail", "/etc/pki/tls/certs/", "/sys/fs/cgroup", "/var/lib/mailman", "/home", "/var/milter" ]
 
 CMD ["/usr/sbin/init"]
-
