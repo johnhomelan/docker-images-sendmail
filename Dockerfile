@@ -22,6 +22,7 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 
 RUN yum install -y  \
 	sed \
+	make \
 	sendmail \
 	sendmail-cf \
 	mailman \
@@ -43,6 +44,7 @@ RUN chown root:root /etc/nss-pgsql-root.conf
 ADD sendmail.cf /etc/mail/
 ADD sendmail.mc /etc/mail/
 ADD imapd.conf /etc/
+ADD cyrus.conf /etc/
 ADD runonce.service /etc/systemd/system/
 ADD runonce /usr/local/sbin/
 

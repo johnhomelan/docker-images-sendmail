@@ -109,7 +109,7 @@ dnl # the following 2 definitions and activate below in the MAILER section the
 dnl # cyrusv2 mailer.
 dnl #
 define(`confLOCAL_MAILER', `cyrusv2')dnl
-define(`CYRUSV2_MAILER_ARGS', `FILE /var/lib/imap/socket/lmtp')dnl
+define(`CYRUSV2_MAILER_ARGS', `FILE /run/cyrus/socket/lmtp')dnl
 dnl #
 dnl # The following causes sendmail to only listen on the IPv4 loopback address
 dnl # 127.0.0.1 and not on any other network devices. Remove the loopback
