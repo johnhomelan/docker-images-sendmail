@@ -28,6 +28,7 @@ RUN yum install -y  \
 	mailman \
 	cyrus-imapd \
 	cyrus-sasl-plain \
+	patch \
 	procps-ng
  
 RUN yum clean all; systemctl enable sendmail.service ; systemctl enable cyrus-imapd.service; systemctl enable saslauthd.service
@@ -51,7 +52,9 @@ ADD runonce /usr/local/sbin/
 RUN chmod u+x /usr/local/sbin/runonce
 RUN systemctl enable runonce
 
+COPY ckuser_cyrus.m4 /usr/share/sendmail-cf/feature/
 RUN sed -i "s/auth       required     pam_nologin.so//" /etc/pam.d/imap
+RUN sed -i "s/auth       required     pam_nologin.so//" /etc/pam.d/sieve
 RUN mkdir /var/milter; chown smmsp.smmsp /var/milter
 
 #Backup the /etc/mail dir, so it can be unpacked so if it is volume mounted it wont be empty 
